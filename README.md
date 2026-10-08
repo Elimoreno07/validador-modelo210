@@ -4,8 +4,66 @@ Herramienta Python para revisar declaraciones del **Modelo 210** antes de las
 pruebas de Impresos Sage 200. Detecta **210I**, **210H** y **210R**, valida modalidad,
 período, ejercicio y plazo de presentación, y genera informes **HTML, CSV y JSON**.
 Las incidencias incluyen una explicación funcional y una acción de revisión para QA.
+La interfaz **Streamlit** permite seleccionar o arrastrar un fichero, pulsar
+**Validar**, revisar resultados y descargar **HTML, CSV y PDF**.
 
-Python 3.11 o superior. Sin dependencias externas en tiempo de ejecución.
+Python 3.11 o superior. La CLI no requiere dependencias externas; la interfaz
+utiliza Streamlit y ReportLab. La aplicación funciona localmente en el navegador.
+
+## Abrir la aplicación en Windows
+
+1. Instala Python 3.11 o superior y Git, o descarga y descomprime el repositorio.
+2. Abre PowerShell en la carpeta del repositorio y prepara el entorno:
+
+```powershell
+py -3 -m venv .venv
+.\.venv\Scripts\python.exe -m pip install -r requirements-gui.txt
+```
+
+3. Haz doble clic en **ejecutar.bat**. Se abrirá el navegador automáticamente.
+4. Selecciona o arrastra un fichero y pulsa **Validar**.
+5. Revisa el modelo, ejercicio, período, errores, avisos y sus soluciones.
+6. Pulsa **Exportar HTML**, **Exportar CSV** o **Exportar PDF**.
+
+Los resultados se guardan automáticamente en **informes/**, en una subcarpeta
+por ejecución. El historial permite reabrirlos después de reiniciar.
+Si hay avisos, deben revisarse aunque la validación no tenga errores.
+Para detener la aplicación, cierra su consola o pulsa Ctrl+C en ella.
+
+También puedes arrancar sin el archivo BAT:
+
+```powershell
+.\.venv\Scripts\python.exe lanzador.py
+```
+
+Prueba los archivos de `ejemplos/`: **210I_correcto.json**, **210I_error.json**,
+**210H_correcto.json** y **210R_correcto.json**. El caso de error tiene días 0,
+participación 120 y una clave catastral incompatible.
+
+Se admiten JSON, TXT, XML, ASCII/.210, JSONL y CSV. Para registros ASCII fijos,
+carga el **layout JSON versionado** en Opciones de lectura. TXT puede contener
+JSON, JSON por línea o XML. El contrato XML y la arquitectura están en
+[documentación de escritorio](docs/escritorio.md).
+
+## Compilar el ejecutable Windows
+
+Desde Windows y la raíz del repositorio:
+
+```powershell
+.\.venv\Scripts\python.exe -m pip install -r requirements-build.txt
+.\.venv\Scripts\python.exe -m PyInstaller --clean --noconfirm ValidadorModelo210.spec
+```
+
+Equivalente, con el entorno activado:
+
+```shell
+pyinstaller --clean --noconfirm ValidadorModelo210.spec
+```
+
+El resultado es **dist/ValidadorModelo210/ValidadorModelo210.exe**. Distribuye
+la carpeta completa, incluyendo **_internal**. El usuario abre el EXE sin
+instalar Python. La carpeta debe permitir escritura para guardar informes.
+`ejecutar.bat` utiliza este EXE cuando existe; en caso contrario usa Python.
 
 ## Uso
 
@@ -91,10 +149,12 @@ validador_modelo210/
 ## Pruebas
 
 ```shell
+python -m pip install -r requirements-gui.txt pypdf
 python -m unittest discover -s validador_modelo210/tests -v
 ```
 
-Se incluyen 78 pruebas y un flujo de GitHub Actions para Linux y Windows.
+Se incluyen pruebas del motor, lectores, historial, PDF y pantalla Streamlit,
+y un flujo de GitHub Actions para Linux y Windows.
 
 ## Extender reglas sin cambiar el núcleo
 

@@ -4,11 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "validador-modelo210"
-version = "0.2.0"
+version = "0.3.0"
 description = "Validación previa de declaraciones del Modelo 210 para QA de Impresos Sage 200"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
+
+[project.optional-dependencies]
+gui = ["streamlit>=1.65,<2", "reportlab>=4.2,<5"]
+build = ["streamlit>=1.65,<2", "reportlab>=4.2,<5", "pyinstaller>=6.12,<7"]
 
 [project.scripts]
 validar-modelo210 = "validador_modelo210.__main__:main"

@@ -11,3 +11,5 @@ output/
 resultado.json
 informe.txt
 .env
+informes/*
+!informes/.gitkeep
