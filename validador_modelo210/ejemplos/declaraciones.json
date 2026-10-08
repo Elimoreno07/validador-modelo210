@@ -1,0 +1,37 @@
+[
+  {
+    "tipoRenta": "02",
+    "ejercicio": 2026,
+    "periodo": "0A",
+    "fechaDevengo": "2026-12-31",
+    "modalidadPresentacion": "individual",
+    "fechaPresentacion": "2027-04-01",
+    "numeroDias": 365,
+    "cuotaParticipacion": 100,
+    "claveReferenciaCatastral": 1,
+    "situacionInmueble": 1
+  },
+  {
+    "tipoRenta": "28",
+    "ejercicio": 2026,
+    "periodo": "0A",
+    "fechaDevengo": "2026-11-15",
+    "modalidadPresentacion": "individual"
+  },
+  {
+    "tipoRenta": "04",
+    "ejercicio": 2026,
+    "periodo": "4T",
+    "fechaDevengo": "2026-11-15",
+    "modalidadPresentacion": "agrupada",
+    "resultado": "ingresar"
+  },
+  {
+    "tipoRenta": "01",
+    "ejercicio": 2026,
+    "periodo": "4T",
+    "fechaDevengo": "2026-11-15",
+    "modalidadPresentacion": "individual",
+    "resultado": "ingresar"
+  }
+]
