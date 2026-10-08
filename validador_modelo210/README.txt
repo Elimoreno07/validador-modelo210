@@ -1,10 +1,20 @@
-VALIDADOR MODELO 210 EN PYTHON
+VALIDACIÓN PREVIA QA IMPRESOS SAGE 200 - MODELO 210
 Versión de reglas: 08/10/2026. Python 3.11 o superior, sin dependencias externas.
 
 Ejecutar desde el directorio que contiene la carpeta validador_modelo210:
 
   python -m validador_modelo210 validador_modelo210/ejemplos/declaraciones.json --salida resultado.json --informe informe.txt
   python -m unittest discover -s validador_modelo210/tests -v
+  python -m validador_modelo210 entrada.json --directorio-informes output/qa
+
+La versión 0.2 incorpora motor extensible y reportes HTML/CSV para QA.
+Consultar README.md y docs/arquitectura.md para el contrato de extensiones,
+docs/guia_qa.md para los pasos de revisión y docs/ejemplo para informes de muestra.
+78 pruebas: modalidades, entradas, CLI, informes y registro de reglas.
+--informe-html y --informe-csv permiten elegir rutas individuales.
+--reglas modulo:registrar carga extensiones; --estricto-qa falla ante advertencias.
+Campos adicionales: idCaso (identificador QA), plazoInformado (inicio/fin),
+estadoQA, estadoPlazo, reglasEjecutadas y accionQA en las incidencias.
 
 El ejemplo contiene tres declaraciones correctas y una incompatible.
 Código de salida: 0 sin errores; 1 errores de validación; 2 error de lectura/formato.

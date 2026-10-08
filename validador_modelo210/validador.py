@@ -2,10 +2,10 @@
 from collections.abc import Mapping
 from datetime import date
 
-from . import reglas_210H, reglas_210I, reglas_210R
 from .comun import VERSION, decimal, entero, fecha, incidencia, normalizar, vacio
 from .detector_modelo import detectar_modelo
-from .detector_periodo import detectar_periodo
+from .mensajes_qa import completar_informe
+from .motor_reglas import ContextoValidacion, crear_registro
 
 
 def _agrupacion(datos, errores):
@@ -44,7 +44,7 @@ def _resultado(valor):
     return "ingresar" if importe > 0 else "devolver" if importe < 0 else "cuota_cero"
 
 
-def validar(registro, *, fecha_referencia=None):
+def validar(registro, *, fecha_referencia=None, registro_reglas=None):
     """Acepta un mapping; resultado fiscal separado del período informado.
 
     fecha_referencia es opcional: no se compara implícitamente con el reloj.
@@ -53,7 +53,9 @@ def validar(registro, *, fecha_referencia=None):
     informe = {"tipoModelo": None, "ejercicio": None, "periodo": None,
                "periodoInformado": None, "fechaDevengo": None, "estado": "Incorrecto",
                "errores": [], "advertencias": [], "reglasAplicadas": [],
-               "plazoPresentacion": None, "versionNormativa": VERSION}
+               "plazoPresentacion": None, "versionNormativa": VERSION,
+               "idCaso": None, "reglasEjecutadas": [], "estadoPlazo": "No comprobado",
+               "fechaPresentacion": None, "modalidadPresentacion": None, "tipoRenta": None}
     errores, advertencias, reglas = informe["errores"], informe["advertencias"], informe["reglasAplicadas"]
     if isinstance(registro, str):
         from .entrada import leer_json
@@ -61,14 +63,16 @@ def validar(registro, *, fecha_referencia=None):
             registro = leer_json(registro)
         except ValueError as exc:
             errores.append(incidencia("REGISTRO_INVALIDO", "registro", str(exc)))
-            return informe
+            return completar_informe(informe)
     if not isinstance(registro, Mapping):
         errores.append(incidencia("REGISTRO_INVALIDO", "registro", "Se espera un objeto de datos."))
-        return informe
+        return completar_informe(informe)
     datos, conflictos = normalizar(registro)
+    informe["idCaso"] = str(datos["idCaso"]) if datos.get("idCaso") is not None else None
     errores.extend(conflictos)
     modelo, renta, problemas, aplicadas = detectar_modelo(datos)
     informe["tipoModelo"] = modelo
+    informe["tipoRenta"] = renta
     errores.extend(problemas)
     reglas.extend(aplicadas)
     ejercicio = None
@@ -84,6 +88,7 @@ def validar(registro, *, fecha_referencia=None):
         ejercicio = None
         errores.append(incidencia("EJERCICIO_INVALIDO", "ejercicio", str(exc)))
     agrupada = _agrupacion(datos, errores)
+    informe["modalidadPresentacion"] = ("agrupada" if agrupada else "individual") if agrupada is not None else None
     resultado = None
     if not vacio(datos.get("resultado")):
         try:
@@ -135,6 +140,7 @@ def validar(registro, *, fecha_referencia=None):
     if not vacio(datos.get("fechaPresentacion")):
         try:
             fecha_presentacion = fecha(datos["fechaPresentacion"])
+            informe["fechaPresentacion"] = fecha_presentacion.isoformat()
             if fechas and fecha_presentacion < max(fechas):
                 errores.append(incidencia("PRESENTACION_ANTES_DEVENGO", "fechaPresentacion", "Presentación anterior al devengo."))
         except ValueError as exc:
@@ -146,10 +152,18 @@ def validar(registro, *, fecha_referencia=None):
     canal = datos.get("canalPresentacion")
     if not vacio(canal) and str(canal).lower() not in {"telematica", "papel"}:
         errores.append(incidencia("CANAL_INVALIDO", "canalPresentacion", "Use telematica o papel."))
-    periodo, problemas, aplicadas = detectar_periodo(modelo, renta, ejercicio, agrupada, resultado, fechas)
+    motor = registro_reglas if registro_reglas is not None else crear_registro()
+    contexto = ContextoValidacion(datos, modelo, renta, ejercicio, agrupada, resultado,
+                                 tuple(fechas), fecha_presentacion)
+    salida_reglas, ejecutadas = motor.evaluar(contexto)
+    periodo, limites = salida_reglas.periodo, salida_reglas.plazo
+    if modelo in {"210I", "210H", "210R"} and periodo is None and not errores and not salida_reglas.errores:
+        errores.append(incidencia("REGLAS_INCOMPLETAS", "periodo", "No se ha podido determinar el período con las reglas disponibles."))
     informe["periodo"] = periodo
-    errores.extend(problemas)
-    reglas.extend(aplicadas)
+    informe["reglasEjecutadas"] = ejecutadas
+    errores.extend(salida_reglas.errores)
+    advertencias.extend(salida_reglas.advertencias)
+    reglas.extend(salida_reglas.reglas)
     informado = datos.get("periodo")
     if vacio(informado):
         errores.append(incidencia("OBLIGATORIO", "periodo", "Informe el período que desea contrastar."))
@@ -160,39 +174,50 @@ def validar(registro, *, fecha_referencia=None):
             errores.append(incidencia("PERIODO_INVALIDO", "periodo", "Período fiscal válido: 0A o 1T–4T."))
         elif periodo and informado != periodo:
             errores.append(incidencia("PERIODO_INCOMPATIBLE", "periodo", f"Período esperado: {periodo}; informado: {informado}."))
-    limites, problemas, avisos, aplicadas = None, [], [], []
-    if modelo == "210I":
-        limites, problemas, avisos, aplicadas = reglas_210I.aplicar(datos, ejercicio, fechas, fecha_presentacion)
-    elif modelo == "210H":
-        try:
-            limites, problemas, avisos, aplicadas = reglas_210H.aplicar(datos, fechas, renta)
-        except (ValueError, OverflowError):
-            problemas = [incidencia("PLAZO_FUERA_RANGO", "fechaDevengo", "La fecha no permite calcular el plazo dentro del rango de fechas soportado.")]
-    elif modelo == "210R":
-        limites, problemas, avisos, aplicadas = reglas_210R.aplicar(datos, renta, ejercicio, agrupada, resultado, fechas, periodo)
-    errores.extend(problemas)
-    advertencias.extend(avisos)
-    reglas.extend(aplicadas)
     informe["plazoPresentacion"] = limites
+    plazo_informado = datos.get("plazoInformado")
+    if plazo_informado is not None:
+        if not isinstance(plazo_informado, Mapping):
+            errores.append(incidencia("PLAZO_INFORMADO_INVALIDO", "plazoInformado", "Informe inicio y fin como un objeto de fechas."))
+        elif limites is None:
+            errores.append(incidencia("PLAZO_NO_CONTRASTABLE", "plazoInformado", "No se ha podido calcular el plazo para compararlo."))
+        else:
+            for campo in ("inicio", "fin"):
+                try:
+                    valor = fecha(plazo_informado.get(campo)).isoformat()
+                    if limites[campo] is None:
+                        advertencias.append(incidencia("PLAZO_NO_CONTRASTABLE", "plazoInformado." + campo, "Faltan datos para contrastar esta fecha del plazo."))
+                    elif valor != limites[campo]:
+                        errores.append(incidencia("PLAZO_INCOMPATIBLE", "plazoInformado." + campo,
+                            f"La fecha informada es {valor}; la fecha nominal esperada es {limites[campo]}."))
+                except ValueError:
+                    errores.append(incidencia("FECHA_INVALIDA", "plazoInformado." + campo, "Informe una fecha válida para el plazo."))
     if limites:
         advertencias.append(incidencia("CALENDARIO_NOMINAL", "plazoPresentacion", "Los plazos no incorporan prórrogas ni ajustes del calendario oficial por días inhábiles."))
         if fecha_presentacion:
+            informe["estadoPlazo"] = "En plazo nominal"
             if fecha_presentacion < date.fromisoformat(limites["inicio"]):
+                informe["estadoPlazo"] = "Anterior al plazo"
                 errores.append(incidencia("PRESENTACION_ANTICIPADA", "fechaPresentacion", "Presentación anterior al inicio del plazo."))
             fin = limites["finDomiciliacion"] if datos.get("domiciliacion") is True else limites["fin"]
+            if fin is None and fecha_presentacion >= date.fromisoformat(limites["inicio"]):
+                informe["estadoPlazo"] = "No comprobado"
             if datos.get("domiciliacion") is True and fin is None:
                 advertencias.append(incidencia("DOMICILIACION_NO_CALCULADA", "domiciliacion", "No se calcula el plazo de domiciliación para este supuesto."))
             if fin and fecha_presentacion > date.fromisoformat(fin):
+                informe["estadoPlazo"] = "Fuera de plazo nominal"
                 advertencias.append(incidencia("FUERA_DE_PLAZO", "fechaPresentacion", "Fecha posterior al plazo nominal; revisar presentación extemporánea o forma de pago."))
     if ejercicio is not None and ejercicio > 2026:
         advertencias.append(incidencia("NORMATIVA_FUTURA", "ejercicio", "Reglas conocidas a 08/10/2026; revisar modificaciones posteriores."))
     informe["estado"] = "Incorrecto" if errores else "Correcto"
-    return informe
+    return completar_informe(informe)
 
 
 def validar_conjunto(registros, **opciones):
     if not isinstance(registros, (list, tuple)) or not registros:
         raise ValueError("Se espera una lista no vacía de declaraciones independientes.")
+    if "registro_reglas" not in opciones:
+        opciones["registro_reglas"] = crear_registro()
     return [validar(r, **opciones) for r in registros]
 
 

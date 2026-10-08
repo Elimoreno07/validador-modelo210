@@ -1,8 +1,9 @@
-# Validador del Modelo 210
+# Validación previa para QA de Impresos Sage 200
 
-Herramienta local en Python para detectar la modalidad **210I**, **210H** o
-**210R**, calcular el período fiscal y contrastarlo con los datos informados.
-Devuelve JSON e informes con reglas aplicadas, errores y advertencias.
+Herramienta Python para revisar declaraciones del **Modelo 210** antes de las
+pruebas de Impresos Sage 200. Detecta **210I**, **210H** y **210R**, valida modalidad,
+período, ejercicio y plazo de presentación, y genera informes **HTML, CSV y JSON**.
+Las incidencias incluyen una explicación funcional y una acción de revisión para QA.
 
 Python 3.11 o superior. Sin dependencias externas en tiempo de ejecución.
 
@@ -13,6 +14,21 @@ Desde la raíz del repositorio:
 ```shell
 python -m validador_modelo210 entrada.json --salida resultado.json --informe informe.txt
 ```
+
+Para generar todos los informes de QA:
+
+```shell
+python -m validador_modelo210 entrada.json --directorio-informes output/qa
+```
+
+Se crean `resultados.json`, `informe.html` e `informe.csv`. El HTML muestra resumen,
+datos de cada caso, errores, advertencias y reglas. El CSV incluye una fila por
+declaración, separador `;` y UTF-8 con BOM para Excel.
+
+El resultado QA distingue **Bloqueado** (errores), **Revisar** (advertencias) y
+**Preparado** (sin incidencias). Con `--estricto-qa`, las advertencias también
+producen código de salida 1. No se valida el diseño visual del impreso ni se
+ejecuta una presentación tributaria.
 
 Ejemplo incluido:
 
@@ -66,6 +82,9 @@ validador_modelo210/
   validador.py
   entrada.py
   informe.py
+  motor_reglas.py
+  reglas_base.py
+  mensajes_qa.py
   tests/
 ```
 
@@ -75,7 +94,27 @@ validador_modelo210/
 python -m unittest discover -s validador_modelo210/tests -v
 ```
 
-Se incluyen 57 pruebas y un flujo de GitHub Actions para Linux y Windows.
+Se incluyen 78 pruebas y un flujo de GitHub Actions para Linux y Windows.
+
+## Extender reglas sin cambiar el núcleo
+
+Las reglas se registran con identificador, versión, fuente, modelo, vigencia y
+prioridad. Pueden añadir controles o sustituir el período y el plazo de forma
+explícita. Los fallos de una regla generan un error bloqueante y trazable.
+
+Ejemplo de módulo de revisión QA incluido:
+
+```shell
+python -m validador_modelo210 entrada.json --directorio-informes output/qa --reglas validador_modelo210.ejemplos.reglas_qa:registrar
+```
+
+También se descubren paquetes instalados mediante el grupo de entry points
+`validador_modelo210.reglas`. Solo deben cargarse módulos Python de confianza.
+
+- [Documentación técnica y contrato de extensiones](docs/arquitectura.md).
+- [Guía funcional para QA](docs/guia_qa.md).
+- [Ejemplo de informe HTML](docs/ejemplo/informe.html).
+- [Ejemplo de informe CSV](docs/ejemplo/informe.csv).
 
 ## Alcance normativo
 

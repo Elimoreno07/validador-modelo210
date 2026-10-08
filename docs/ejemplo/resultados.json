@@ -1,0 +1,280 @@
+[
+  {
+    "tipoModelo": "210I",
+    "ejercicio": 2026,
+    "periodo": "0A",
+    "periodoInformado": "0A",
+    "fechaDevengo": "2026-12-31",
+    "estado": "Correcto",
+    "errores": [],
+    "advertencias": [
+      {
+        "codigo": "CALENDARIO_NOMINAL",
+        "campo": "plazoPresentacion",
+        "mensaje": "Los plazos no incorporan prórrogas ni ajustes del calendario oficial por días inhábiles.",
+        "accionQA": "Contrasta las fechas con el calendario AEAT de la campaña antes de dar por válido el plazo."
+      }
+    ],
+    "reglasAplicadas": [
+      {
+        "codigo": "MODELO_POR_RENTA",
+        "descripcion": "Clasificación mediante catálogo de tipos de renta.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      },
+      {
+        "codigo": "PERIODO_INDIVIDUAL",
+        "descripcion": "Declaración separada: período 0A.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      },
+      {
+        "codigo": "I_DEVENGO_ANUAL",
+        "descripcion": "Devengo de imputación el 31 de diciembre.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      },
+      {
+        "codigo": "I_PLAZO_2026",
+        "descripcion": "Plazo de imputación determinado por el ejercicio de devengo.",
+        "fuente": "https://www.boe.es/eli/es/o/2026/06/12/hac623"
+      },
+      {
+        "codigo": "I_CAMPOS_2027",
+        "descripcion": "Nuevos campos exigibles por fecha de presentación.",
+        "fuente": "https://www.boe.es/eli/es/o/2026/06/12/hac623"
+      },
+      {
+        "codigo": "SAGE_CLAVE_CATASTRAL",
+        "descripcion": "Mapeo territorial configurado según requisito Sage.",
+        "fuente": "Requisito funcional del usuario"
+      }
+    ],
+    "plazoPresentacion": {
+      "inicio": "2027-04-01",
+      "fin": "2027-12-31",
+      "finDomiciliacion": "2027-12-23",
+      "calendario": "Fechas normativas nominales; no ajustadas por días inhábiles."
+    },
+    "versionNormativa": "2026-10-08",
+    "idCaso": null,
+    "reglasEjecutadas": [
+      {
+        "codigo": "AEAT_PERIODO",
+        "version": "1",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html",
+        "estado": "Ejecutada"
+      },
+      {
+        "codigo": "AEAT_210I",
+        "version": "2026-10-08",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html",
+        "estado": "Ejecutada"
+      }
+    ],
+    "estadoPlazo": "En plazo nominal",
+    "fechaPresentacion": "2027-04-01",
+    "modalidadPresentacion": "individual",
+    "tipoRenta": "02",
+    "estadoQA": "Revisar"
+  },
+  {
+    "tipoModelo": "210H",
+    "ejercicio": 2026,
+    "periodo": "0A",
+    "periodoInformado": "0A",
+    "fechaDevengo": "2026-11-15",
+    "estado": "Correcto",
+    "errores": [],
+    "advertencias": [
+      {
+        "codigo": "CALENDARIO_NOMINAL",
+        "campo": "plazoPresentacion",
+        "mensaje": "Los plazos no incorporan prórrogas ni ajustes del calendario oficial por días inhábiles.",
+        "accionQA": "Contrasta las fechas con el calendario AEAT de la campaña antes de dar por válido el plazo."
+      }
+    ],
+    "reglasAplicadas": [
+      {
+        "codigo": "MODELO_POR_RENTA",
+        "descripcion": "Clasificación mediante catálogo de tipos de renta.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      },
+      {
+        "codigo": "PERIODO_INDIVIDUAL",
+        "descripcion": "Declaración separada: período 0A.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      },
+      {
+        "codigo": "H_PLAZO_TRANSMISION",
+        "descripcion": "Tres meses de presentación tras transcurrir un mes desde transmisión.",
+        "fuente": "https://www.boe.es/eli/es/o/2026/06/12/hac623"
+      }
+    ],
+    "plazoPresentacion": {
+      "inicio": "2026-12-16",
+      "fin": "2027-03-15",
+      "finDomiciliacion": null,
+      "calendario": "Fechas normativas nominales; no ajustadas por días inhábiles."
+    },
+    "versionNormativa": "2026-10-08",
+    "idCaso": null,
+    "reglasEjecutadas": [
+      {
+        "codigo": "AEAT_PERIODO",
+        "version": "1",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html",
+        "estado": "Ejecutada"
+      },
+      {
+        "codigo": "AEAT_210H",
+        "version": "2026-10-08",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html",
+        "estado": "Ejecutada"
+      }
+    ],
+    "estadoPlazo": "No comprobado",
+    "fechaPresentacion": null,
+    "modalidadPresentacion": "individual",
+    "tipoRenta": "28",
+    "estadoQA": "Revisar"
+  },
+  {
+    "tipoModelo": "210R",
+    "ejercicio": 2026,
+    "periodo": "4T",
+    "periodoInformado": "4T",
+    "fechaDevengo": "2026-11-15",
+    "estado": "Correcto",
+    "errores": [],
+    "advertencias": [
+      {
+        "codigo": "AGRUPACION_PARCIAL",
+        "campo": "agrupacion",
+        "mensaje": "Se valida período y clave; faltan comprobaciones de pagador, bien, contribuyente, gravamen y no compensación.",
+        "accionQA": "Revisa el campo indicado y la regla aplicada; corrige los datos o documenta el resultado de la revisión."
+      },
+      {
+        "codigo": "FECHA_AUXILIAR_AGRUPACION",
+        "campo": "fechaDevengo",
+        "mensaje": "Fecha usada para análisis; la casilla fecha de devengo no se cumplimenta en una agrupación.",
+        "accionQA": "Revisa el campo indicado y la regla aplicada; corrige los datos o documenta el resultado de la revisión."
+      },
+      {
+        "codigo": "CALENDARIO_NOMINAL",
+        "campo": "plazoPresentacion",
+        "mensaje": "Los plazos no incorporan prórrogas ni ajustes del calendario oficial por días inhábiles.",
+        "accionQA": "Contrasta las fechas con el calendario AEAT de la campaña antes de dar por válido el plazo."
+      }
+    ],
+    "reglasAplicadas": [
+      {
+        "codigo": "MODELO_POR_RENTA",
+        "descripcion": "Clasificación mediante catálogo de tipos de renta.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      },
+      {
+        "codigo": "AGRUPACION_TRIMESTRAL",
+        "descripcion": "Agrupación a ingresar del mismo trimestre.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      },
+      {
+        "codigo": "R_PLAZO_TRIMESTRAL",
+        "descripcion": "Plazo ordinario posterior al trimestre de devengo.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      }
+    ],
+    "plazoPresentacion": {
+      "inicio": "2027-01-01",
+      "fin": "2027-01-20",
+      "finDomiciliacion": "2027-01-15",
+      "calendario": "Fechas normativas nominales; no ajustadas por días inhábiles."
+    },
+    "versionNormativa": "2026-10-08",
+    "idCaso": null,
+    "reglasEjecutadas": [
+      {
+        "codigo": "AEAT_PERIODO",
+        "version": "1",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html",
+        "estado": "Ejecutada"
+      },
+      {
+        "codigo": "AEAT_210R",
+        "version": "2026-10-08",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html",
+        "estado": "Ejecutada"
+      }
+    ],
+    "estadoPlazo": "No comprobado",
+    "fechaPresentacion": null,
+    "modalidadPresentacion": "agrupada",
+    "tipoRenta": "04",
+    "estadoQA": "Revisar"
+  },
+  {
+    "tipoModelo": "210R",
+    "ejercicio": 2026,
+    "periodo": "0A",
+    "periodoInformado": "4T",
+    "fechaDevengo": "2026-11-15",
+    "estado": "Incorrecto",
+    "errores": [
+      {
+        "codigo": "PERIODO_INCOMPATIBLE",
+        "campo": "periodo",
+        "mensaje": "Período esperado: 0A; informado: 4T.",
+        "accionQA": "Revisa si las rentas se declaran individualmente o agrupadas y compara el período con el esperado."
+      }
+    ],
+    "advertencias": [
+      {
+        "codigo": "CALENDARIO_NOMINAL",
+        "campo": "plazoPresentacion",
+        "mensaje": "Los plazos no incorporan prórrogas ni ajustes del calendario oficial por días inhábiles.",
+        "accionQA": "Contrasta las fechas con el calendario AEAT de la campaña antes de dar por válido el plazo."
+      }
+    ],
+    "reglasAplicadas": [
+      {
+        "codigo": "MODELO_POR_RENTA",
+        "descripcion": "Clasificación mediante catálogo de tipos de renta.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      },
+      {
+        "codigo": "PERIODO_INDIVIDUAL",
+        "descripcion": "Declaración separada: período 0A.",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html"
+      },
+      {
+        "codigo": "R_ALQUILER_PLAZO_2026",
+        "descripcion": "Nuevo plazo de alquileres; transición separada desde cuarto trimestre 2026.",
+        "fuente": "https://www.boe.es/eli/es/o/2026/06/12/hac623"
+      }
+    ],
+    "plazoPresentacion": {
+      "inicio": "2027-04-01",
+      "fin": "2027-04-20",
+      "finDomiciliacion": "2027-04-15",
+      "calendario": "Fechas normativas nominales; no ajustadas por días inhábiles."
+    },
+    "versionNormativa": "2026-10-08",
+    "idCaso": null,
+    "reglasEjecutadas": [
+      {
+        "codigo": "AEAT_PERIODO",
+        "version": "1",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html",
+        "estado": "Ejecutada"
+      },
+      {
+        "codigo": "AEAT_210R",
+        "version": "2026-10-08",
+        "fuente": "https://sede.agenciatributaria.gob.es/Sede/todas-gestiones/impuestos-tasas/impuesto-sobre-renta-no-residentes/modelo-210-irnr______a-no-residentes-permanente_/instrucciones.html",
+        "estado": "Ejecutada"
+      }
+    ],
+    "estadoPlazo": "No comprobado",
+    "fechaPresentacion": null,
+    "modalidadPresentacion": "individual",
+    "tipoRenta": "01",
+    "estadoQA": "Bloqueado"
+  }
+]

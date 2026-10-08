@@ -4,14 +4,15 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "validador-modelo210"
-version = "0.1.0"
-description = "Validación local de modalidad, período y plazos del Modelo 210"
+version = "0.2.0"
+description = "Validación previa de declaraciones del Modelo 210 para QA de Impresos Sage 200"
 readme = "README.md"
 requires-python = ">=3.11"
 dependencies = []
 
 [project.scripts]
 validar-modelo210 = "validador_modelo210.__main__:main"
+qa-impresos-sage200 = "validador_modelo210.__main__:main"
 
 [tool.setuptools.packages.find]
 include = ["validador_modelo210*"]

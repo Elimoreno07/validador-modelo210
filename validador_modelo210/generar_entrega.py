@@ -3,7 +3,7 @@ import json
 import zipfile
 from pathlib import Path
 
-from .informe import generar_informe
+from .informe import generar_csv, generar_html, generar_informe
 from .validador import validar_fichero
 
 
@@ -14,13 +14,15 @@ def main():
     resultados = validar_fichero(paquete / "ejemplos" / "declaraciones.json")
     (destino / "resultados.json").write_text(json.dumps(resultados, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
     (destino / "informe_validacion.txt").write_text(generar_informe(resultados), encoding="utf-8")
+    (destino / "informe.html").write_text(generar_html(resultados), encoding="utf-8")
+    (destino / "informe.csv").write_text(generar_csv(resultados), encoding="utf-8", newline="")
     resumen = (
         "ENTREGA DEL VALIDADOR MODELO 210\n\n"
         "Implementado en Python 3.11+, sin dependencias externas.\n"
         "Arquitectura: detector de modelo, detector de período, reglas I/H/R,\n"
         "validador, adaptadores de entrada, informe final y CLI.\n\n"
-        "Verificación ejecutada: 57 pruebas unitarias correctas (unittest),\n"
-        "incluidas pruebas de ficheros y CLI, con salida UTF-8 en Windows.\n\n"
+        "Las pruebas unitarias se ejecutan con unittest; consultar el resultado\n"
+        "de CI para verificar la versión publicada.\n\n"
         "Resultado del conjunto de ejemplo:\n"
     )
     for i, r in enumerate(resultados, 1):
@@ -41,7 +43,7 @@ def main():
         for ruta in paquete.rglob("*"):
             if ruta.is_file() and "__pycache__" not in ruta.parts:
                 archivo.write(ruta, Path("validador_modelo210") / ruta.relative_to(paquete))
-        for nombre in ("resultados.json", "informe_validacion.txt", "informe_final.txt"):
+        for nombre in ("resultados.json", "informe_validacion.txt", "informe_final.txt", "informe.html", "informe.csv"):
             archivo.write(destino / nombre, Path("informes") / nombre)
     print(json.dumps({"declaraciones": len(resultados), "correctas": sum(r["estado"] == "Correcto" for r in resultados),
                       "incorrectas": sum(r["estado"] == "Incorrecto" for r in resultados),
