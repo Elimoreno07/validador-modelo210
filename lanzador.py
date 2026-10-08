@@ -42,7 +42,7 @@ def main():
         return
     from streamlit.web import bootstrap
     puerto = puerto_libre()
-    opciones = {'server.address': '127.0.0.1', 'server.port': puerto,
+    opciones = {'global.developmentMode': False, 'server.address': '127.0.0.1', 'server.port': puerto,
         'server.headless': True, 'server.maxUploadSize': 10,
         'server.fileWatcherType': 'none', 'browser.gatherUsageStats': False}
     bootstrap.load_config_options(opciones)
