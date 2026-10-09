@@ -1,0 +1,2 @@
+# Dependencias detectadas por Streamlit Community Cloud.
+-r requirements-gui.txt

@@ -95,6 +95,30 @@ class PruebasEscritorio(unittest.TestCase):
 
 
 class PruebasStreamlit(unittest.TestCase):
+    def test_web_aisla_historial_por_sesion(self):
+        from streamlit.testing.v1 import AppTest
+        a = AppTest.from_file(str(RAIZ/'app_web.py')).run(timeout=30)
+        b = AppTest.from_file(str(RAIZ/'app_web.py')).run(timeout=30)
+        try:
+            self.assertFalse(a.exception)
+            self.assertFalse(b.exception)
+            destino_a = a.session_state['_directorio_web']
+            destino_b = b.session_state['_directorio_web']
+            self.assertNotEqual(destino_a, destino_b)
+            entrega = ejecutar_validacion((RAIZ/'ejemplos/210I_correcto.json').read_bytes(), 'a.json', destino=destino_a)
+            a.session_state['actual'] = entrega
+            a.run(timeout=30)
+            b.run(timeout=30)
+            self.assertFalse(a.exception)
+            self.assertFalse(b.exception)
+            self.assertEqual(len(leer_historial(destino_a)), 1)
+            self.assertEqual(leer_historial(destino_b), [])
+            self.assertEqual(len(a.get('download_button')), 3)
+            self.assertEqual(len(b.get('download_button')), 0)
+        finally:
+            a.session_state['_almacen_web'].cleanup()
+            b.session_state['_almacen_web'].cleanup()
+
     def test_pantalla_e_historial(self):
         from streamlit.testing.v1 import AppTest
         with tempfile.TemporaryDirectory() as tmp, patch.dict(os.environ, {'MODELO210_INFORMES':tmp}):

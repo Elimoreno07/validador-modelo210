@@ -10,6 +10,17 @@ La interfaz **Streamlit** permite seleccionar o arrastrar un fichero, pulsar
 Python 3.11 o superior. La CLI no requiere dependencias externas; la interfaz
 utiliza Streamlit y ReportLab. La aplicación funciona localmente en el navegador.
 
+## Utilizar desde una web, sin descargar la aplicación
+
+El repositorio incluye **app_web.py** y está preparado para Streamlit Community
+Cloud. Para activarlo, entra en [Streamlit Cloud](https://share.streamlit.io/),
+crea una app del repositorio **Elimoreno07/validador-modelo210**, rama **main**,
+archivo **app_web.py** y pulsa **Deploy**. Selecciona Python 3.12.
+
+La plataforma generará la URL para abrir y compartir el validador. El historial
+web está separado por sesión y es temporal. Los informes se pueden descargar
+en HTML, CSV y PDF. [Instrucciones de despliegue](docs/despliegue_web.md).
+
 ## Descargar el ejecutable (sin instalar Python)
 
 [Descargar Validador Modelo 210 para Windows x64](https://github.com/Elimoreno07/validador-modelo210/releases/download/v0.3.0/ValidadorModelo210-Windows-x64.zip)

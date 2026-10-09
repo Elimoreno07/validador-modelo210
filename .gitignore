@@ -11,5 +11,6 @@ output/
 resultado.json
 informe.txt
 .env
+.streamlit/secrets.toml
 informes/*
 !informes/.gitkeep
