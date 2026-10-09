@@ -1,5 +1,10 @@
 # Validación previa para QA de Impresos Sage 200
 
+### [▶ Abrir validador web](https://validador-modelo210-fkeuevczxibs8rrtwubw5q.streamlit.app/)
+
+Abre la aplicación en el navegador, selecciona o arrastra un fichero y pulsa
+**Validar**. No necesitas descargar ni instalar la aplicación.
+
 Herramienta Python para revisar declaraciones del **Modelo 210** antes de las
 pruebas de Impresos Sage 200. Detecta **210I**, **210H** y **210R**, valida modalidad,
 período, ejercicio y plazo de presentación, y genera informes **HTML, CSV y JSON**.
@@ -12,12 +17,13 @@ utiliza Streamlit y ReportLab. La aplicación funciona localmente en el navegado
 
 ## Utilizar desde una web, sin descargar la aplicación
 
-El repositorio incluye **app_web.py** y está preparado para Streamlit Community
-Cloud. Para activarlo, entra en [Streamlit Cloud](https://share.streamlit.io/),
-crea una app del repositorio **Elimoreno07/validador-modelo210**, rama **main**,
-archivo **app_web.py** y pulsa **Deploy**. Selecciona Python 3.12.
+Acceso: [Validador Modelo 210 en Streamlit](https://validador-modelo210-fkeuevczxibs8rrtwubw5q.streamlit.app/).
 
-La plataforma generará la URL para abrir y compartir el validador. El historial
+El repositorio incluye **app_web.py**, el punto de entrada para Streamlit Community
+Cloud. Para crear otro despliegue, selecciona el repositorio
+**Elimoreno07/validador-modelo210**, rama **main**, archivo **app_web.py** y Python 3.12.
+
+Comparte el enlace web para acceder al validador. El historial
 web está separado por sesión y es temporal. Los informes se pueden descargar
 en HTML, CSV y PDF. [Instrucciones de despliegue](docs/despliegue_web.md).
 

@@ -1,7 +1,9 @@
 # Uso desde el navegador sin instalar ni descargar la aplicación
 
-El repositorio está preparado para Streamlit Community Cloud. No hay una URL
-de ejecución hasta que se cree el despliegue en una cuenta de Streamlit Cloud.
+Aplicación activada por la propietaria:
+https://validador-modelo210-fkeuevczxibs8rrtwubw5q.streamlit.app/
+
+Para crear otro despliegue en Streamlit Community Cloud:
 
 1. Accede a https://share.streamlit.io/ con tu cuenta y conecta GitHub.
 2. Pulsa Create app y selecciona la opción de utilizar un repositorio existente.
