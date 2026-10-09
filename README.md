@@ -10,6 +10,19 @@ La interfaz **Streamlit** permite seleccionar o arrastrar un fichero, pulsar
 Python 3.11 o superior. La CLI no requiere dependencias externas; la interfaz
 utiliza Streamlit y ReportLab. La aplicación funciona localmente en el navegador.
 
+## Descargar el ejecutable (sin instalar Python)
+
+[Descargar Validador Modelo 210 para Windows x64](https://github.com/Elimoreno07/validador-modelo210/releases/download/v0.3.0/ValidadorModelo210-Windows-x64.zip)
+
+1. Descarga el ZIP y descomprímelo completamente en una carpeta escribible.
+2. Abre **AbrirValidador.bat** o **ValidadorModelo210.exe** en la carpeta descomprimida.
+3. Selecciona el fichero y pulsa **Validar**.
+
+Mantén la carpeta **_internal** junto al EXE. Los informes se guardarán en
+**informes/**. El paquete incluye ejemplos de las tres modalidades.
+También se incluye [Descargar_validador.url](Descargar_validador.url), un acceso
+directo de Windows a la descarga pública.
+
 ## Abrir la aplicación en Windows
 
 1. Instala Python 3.11 o superior y Git, o descarga y descomprime el repositorio.
